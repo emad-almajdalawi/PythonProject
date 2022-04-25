@@ -23,7 +23,7 @@ class SignDetection:
         # For voice recognition
         self.letter = ""
         self.quit = 1
-
+        self.lm_id=[]
 
     def hand_detection(self,cap):
         """
@@ -74,6 +74,7 @@ class SignDetection:
                 for hand_landmark in landmarks_xyz.multi_hand_landmarks:
                     lm_list = []
                     for id, lm in enumerate(hand_landmark.landmark):
+                        self.lm_id.append(id)
                         lm_list.append(lm)
                     finger_fold_status = []
                     for tip in finger_tips:

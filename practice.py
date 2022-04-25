@@ -358,7 +358,7 @@ class SignPractice:
 
                     # I Love You
                     if middle_tip_status_fv == "fold down" and ring_tip_status_fv == "fold down" and thumb_tip_status_v == "up" and index_tip_status_v == "up" and little_tip_status_v == "up":
-                        if practice_word == 'Yes':
+                        if practice_word == 'I Love You':
                             cv2.putText(img, "True", (250, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 3)
                             self.output_list.append("I Love You")
                             self.letter="I Love You"
