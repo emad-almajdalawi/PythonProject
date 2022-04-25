@@ -25,7 +25,7 @@ class SignDetection:
         self.quit = 1
 
 
-    def hand_detection(self):
+    def hand_detection(self,cap):
         """
         A method that is used for detecting the landmarks for the fingers and translates it to sign language using the x and y coordinates
             Arguments: None
@@ -37,7 +37,6 @@ class SignDetection:
         middle_tip = 12
         ring_tip = 16
         little_tip = 20
-
         while True:
             # Initialize the finger status with None
             index_tip_status_fh = None
@@ -63,7 +62,9 @@ class SignDetection:
 
             self.output_list = []
             self.common = ''
-            ret, img = self.cap.read()
+            ret, img = cap.read()
+            if img is None:
+                break
             img = cv2.flip(img, 1)
             h, w, c = img.shape
             landmarks_xyz = self.hands.process(img)
@@ -192,7 +193,7 @@ class SignDetection:
                         cv2.putText(img, "Hello", (250, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
                         self.output_list.append('Hello')
                         self.letter="Hello"
-                        hello_sign = cv2.imread("images/hello.jpg")
+                        hello_sign = cv2.imread("images/hello.png")
                         hello_sign = cv2.resize(hello_sign, (200, 180))
                         h, w, c = hello_sign.shape
                         img[0:h, 0:w] = hello_sign
@@ -252,9 +253,9 @@ class SignDetection:
                         if lm_list[thumb_tip].y < lm_list[thumb_tip - 1].y < lm_list[thumb_tip - 2].y and lm_list[0].x < \
                                 lm_list[3].y:
                             self.output_list.append("Like")
-                            cv2.putText(img, "Like", (250, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 3)
+                            cv2.putText(img, "Like", (250, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
                             self.letter="Like"
-                            like_sign = cv2.imread("images/like.jpg")
+                            like_sign = cv2.imread("images/like.png")
                             like_sign = cv2.resize(like_sign, (200, 180))
                             h, w, c = like_sign.shape
                             img[0:h, 0:w] = like_sign
@@ -266,7 +267,7 @@ class SignDetection:
                             cv2.putText(img, "Dislike", (250, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
                             self.output_list.append("Dislike")
                             self.letter="Dislike"
-                            dislike_sign = cv2.imread("images/dislike.jpg")
+                            dislike_sign = cv2.imread("images/dislike.png")
                             dislike_sign = cv2.resize(dislike_sign, (200, 180))
                             h, w, c = dislike_sign.shape
                             img[0:h, 0:w] = dislike_sign
@@ -276,7 +277,7 @@ class SignDetection:
                         cv2.putText(img, "I Love You", (250, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
                         self.output_list.append("I Love You")
                         self.letter="I Love You"
-                        loveyou_sign = cv2.imread("images/loveyou.jpg")
+                        loveyou_sign = cv2.imread("images/love.png")
                         loveyou_sign = cv2.resize(loveyou_sign, (200, 180))
                         h, w, c = loveyou_sign.shape
                         img[0:h, 0:w] = loveyou_sign
@@ -286,7 +287,7 @@ class SignDetection:
                         cv2.putText(img, "Yes", (250, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
                         self.output_list.append("Yes")
                         self.letter="Yes"
-                        yes_sign = cv2.imread("images/yes.jpg")
+                        yes_sign = cv2.imread("images/yes.png")
                         yes_sign = cv2.resize(yes_sign, (200, 180))
                         h, w, c = yes_sign.shape
                         img[0:h, 0:w] = yes_sign
@@ -296,7 +297,7 @@ class SignDetection:
                         cv2.putText(img, "No", (250, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
                         self.output_list.append("No")
                         self.letter="No"
-                        no_sign = cv2.imread("images/no.jpg")
+                        no_sign = cv2.imread("images/no.png")
                         no_sign = cv2.resize(no_sign, (200, 180))
                         h, w, c = no_sign.shape
                         img[0:h, 0:w] = no_sign
@@ -325,7 +326,7 @@ class SignDetection:
                         cv2.putText(img, "Green", (250, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
                         self.output_list.append("Green")
                         self.letter="Green"
-                        green_sign = cv2.imread("images/green.jpg")
+                        green_sign = cv2.imread("images/green.png")
                         green_sign = cv2.resize(green_sign, (200, 180))
                         h, w, c = green_sign.shape
                         img[0:h, 0:w] = green_sign
@@ -342,7 +343,7 @@ class SignDetection:
                         continue
 
                     if middle_tip_status_fh == 'fold right' and ring_tip_status_fh == 'fold right' and index_tip_status_fh == "fold right" and little_tip_status_h == 'right' and thumb_tip_status_v == 'up':
-                        cv2.putText(img, "Yellow", (20, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
+                        cv2.putText(img, "Yellow", (250, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
                         self.output_list.append("Yellow")
                         self.letter="Yellow"
                         yellow_sign = cv2.imread("images/yellow.png")
@@ -352,7 +353,7 @@ class SignDetection:
                         continue
 
                     if thumb_tip_status_h=="right" and index_tip_status_v=="up" and middle_tip_status_fv=="fold down" and ring_tip_status_fv=="fold down" and little_tip_status_fv=="fold down":
-                        cv2.putText(img, "leave", (20, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
+                        cv2.putText(img, "leave", (250, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
                         self.letter="leave"
 
             cv2.imshow("Hand Sign Detection", img)
@@ -429,4 +430,4 @@ class SignDetection:
         self.words[self.common] = True
 
 if __name__=='__main__':
-    SignDetection().hand_detection()
+    SignDetection().hand_detection(SignDetection().cap)
